@@ -22,10 +22,10 @@
     "color_footer_text": "#502f25",
     "color_footer_social_link": "#502f25",
     "type_base_family": "americana_n4",
-    "type_base_size": "17px",
+    "type_base_size": "16px",
     "type_header_family": "americana_n4",
     "type_header_size": "32px",
-    "type_accent_family": "trirong_n4",
+    "type_accent_family": "inter_n3",
     "type_accent_size": "16px",
     "type_accent_transform": true,
     "type_accent_spacing": true,
@@ -267,6 +267,7 @@
         "settings": {
           "image": "shopify://shop_images/IMG_6225.jpg",
           "layout": "left",
+          "full_width": true,
           "title": "",
           "text": "<p>Hannah Watts (b.1997) is a multidisciplinary artist based in London. She studied fine art at Edinburgh College of Art, The Florence Academy of Art, and graphic design at Shillington College. She uses a combination of these different mediums within her work. Graphic design plays a key role in her drawing style, using geometric shapes and patterns.</p><p>Silo Studio is a design studio consisting of Hannah’s artwork as well as homewares she has designed. It has become a space for Hannah to play; experimenting with different mediums and ideas and collaborating with like minded creatives.</p><p>Hannah’s inspiration largely derives from the tropics; namely the African landscape, both natural and architectural as well as from the craft originating there, particularly the textiles. Hannah likes to make up ‘dreamworlds’ within her designs, creating exaggerated versions of natural elements, particularly the plants and flowers within our landscape, and using pattern as a constant reference.</p><p>With a strong interest in hand made craft everything has either been created in house by Hannah, or designed and made by specialist artisans.</p>",
           "button_label": "",
@@ -305,23 +306,10 @@
               "button_label": "",
               "button_link": ""
             }
-          },
-          "image_fyMzi9": {
-            "type": "image",
-            "settings": {
-              "alignment": "center center",
-              "overlay_opacity": 30,
-              "color_text": "#ffffff",
-              "text_alignment": "center",
-              "slide_heading": "Image slide",
-              "button_label": "",
-              "button_link": ""
-            }
           }
         },
         "block_order": [
-          "image_3hzqUc",
-          "image_fyMzi9"
+          "image_3hzqUc"
         ],
         "name": "Slideshow",
         "settings": {
@@ -333,10 +321,24 @@
           "slider_home_transition": "slide",
           "text_size": "medium"
         }
+      },
+      "feature_row_6U7GQc": {
+        "type": "feature-row",
+        "name": "Image with text",
+        "settings": {
+          "image": "shopify://shop_images/IMG_6225_1.jpg",
+          "layout": "left",
+          "full_width": true,
+          "title": "Image with text",
+          "text": "<p>Pair large text with an image to give focus to your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+          "button_label": "",
+          "button_link": ""
+        }
       }
     },
     "content_for_index": [
       "slider_8T3icB",
+      "feature_row_6U7GQc",
       "gallery_phwVmm",
       "rich_text_43ezML",
       "rich_text_meqHUH",

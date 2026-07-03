@@ -56,17 +56,7 @@
       {%- endif -%}
     {%- endif -%}
   {%- endstyle -%}
-  {%- if section.settings.full_width -%}
-    {%- style -%}
-      #slideshow-section--{{ section.id }} {
-        width: 100vw;
-        max-width: 100vw;
-        margin-left: calc(50% - 50vw);
-        margin-right: calc(50% - 50vw);
-      }
-    {%- endstyle -%}
-  {%- endif -%}
-  <div class="index-section slideshow-section"
+  <div class="index-section slideshow-section{% if section.settings.full_width %} full-bleed{% endif %}"
        id="slideshow-section--{{ section.id }}"
        {% if section.settings.allow_transparent_header %}allow-transparent-header{% endif %}
        role="region"

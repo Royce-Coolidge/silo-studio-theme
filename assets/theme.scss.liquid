@@ -868,6 +868,20 @@ html, body { background: $colorBody; }
   }
 }
 
+/*================ Full-bleed sections ================*/
+// Page content is nested in .wrapper > .grid > .grid__item. That grid gutter
+// (.grid margin-left: -$gridGutter, .grid__item padding-left: $gridGutter)
+// leaves the content column's containing block off-centre, so a naive
+// `calc(50% - 50vw)` breakout lands $gridGutter/2 too far left. Add that half
+// gutter back on each side so opted-in sections span the viewport edge-to-edge
+// and stay centred.
+.full-bleed {
+  width: 100vw;
+  max-width: 100vw;
+  margin-left: calc(50% - 50vw + #{$gridGutter / 2});
+  margin-right: calc(50% - 50vw + #{$gridGutter / 2});
+}
+
 
 /*================ Module-specific styles ================*/
 .header-bar {
@@ -1644,6 +1658,13 @@ $badgeSize: 60px;
   @include at-query ($max, $medium) {
     @include flex-wrap(wrap);
   }
+}
+
+// When full-bleed, the image column reaches the true viewport edge while the
+// text column keeps a gutter so copy never touches the screen edge.
+.feature-row.full-bleed .feature-row__text {
+  padding-left: $gridGutter;
+  padding-right: $gridGutter;
 }
 
 .feature-row__item {
