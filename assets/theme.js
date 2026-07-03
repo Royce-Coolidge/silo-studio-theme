@@ -1395,11 +1395,22 @@ theme.Header = (function() {
       cache.$mobileSublistTrigger.off('.mobileSublistTrigger');
       if (this.headerResizeObserver) this.headerResizeObserver.disconnect();
       if (this.headerIntersectionObserver) this.headerIntersectionObserver.disconnect();
+      if (this.headerScrollHandler) {
+        window.removeEventListener('scroll', this.headerScrollHandler);
+      }
     },
 
     setupTransparencyObservers: function() {
       var headerEl = document.querySelector('.site-header-wrapper');
       if (!headerEl) return;
+
+      // The header only goes transparent when a compatible section (one that
+      // emits [allow-transparent-header]) is the first thing on the page.
+      // Otherwise leave the stock static header entirely alone.
+      var overlayActive = document.querySelector(
+        '.grid__item > .shopify-section:first-child [allow-transparent-header]'
+      );
+      if (!overlayActive) return;
 
       var writeHeaderHeight = function() {
         document.documentElement.style.setProperty(
@@ -1416,15 +1427,61 @@ theme.Header = (function() {
         $(window).on('resize.headerHeight', writeHeaderHeight);
       }
 
+      var self = this;
+
+      // The tracker tells us whether we're still at the very top of the page,
+      // i.e. the header is floating over the hero and should be transparent.
+      this.headerAtTop = true;
       var trackerEl = document.getElementById('header-scroll-tracker');
       if (trackerEl && typeof IntersectionObserver !== 'undefined') {
         this.headerIntersectionObserver = new IntersectionObserver(function(entries) {
-          headerEl.classList.toggle('is-solid', !entries[0].isIntersecting);
+          self.headerAtTop = entries[0].isIntersecting;
+          if (self.headerAtTop) {
+            // Back over the hero: transparent and fully visible.
+            headerEl.classList.remove('is-solid');
+            headerEl.classList.remove('is-hidden');
+          }
         });
         this.headerIntersectionObserver.observe(trackerEl);
       } else {
+        // No IntersectionObserver: fall back to a plain solid header that still
+        // hides on scroll down and reveals on scroll up (no transparency).
+        this.headerAtTop = false;
         headerEl.classList.add('is-solid');
       }
+
+      // Header states once scrolled away from the top:
+      //   scrolling down -> hide while still transparent (never flash solid)
+      //   scrolling up   -> reveal the solid default header
+      var lastScroll = window.pageYOffset;
+      this.headerScrollHandler = function() {
+        var currentScroll = window.pageYOffset;
+        // Ignore tiny jitters and rubber-band scrolling past the top.
+        if (Math.abs(currentScroll - lastScroll) < 5) {
+          return;
+        }
+
+        // At the top the observer owns the transparent state; leave it alone.
+        // Don't slide a header with an open menu off-screen either.
+        var menuOpen = !!headerEl.querySelector('[aria-expanded="true"]');
+        if (self.headerAtTop || menuOpen) {
+          lastScroll = currentScroll <= 0 ? 0 : currentScroll;
+          return;
+        }
+
+        if (currentScroll > lastScroll) {
+          // Scrolling down — hide it, keeping it transparent so it doesn't
+          // momentarily flash the solid header on its way out.
+          headerEl.classList.remove('is-solid');
+          headerEl.classList.add('is-hidden');
+        } else {
+          // Scrolling up — reveal the solid default header.
+          headerEl.classList.add('is-solid');
+          headerEl.classList.remove('is-hidden');
+        }
+        lastScroll = currentScroll <= 0 ? 0 : currentScroll;
+      };
+      window.addEventListener('scroll', this.headerScrollHandler, { passive: true });
     },
 
     menuOpen: function() {

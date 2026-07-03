@@ -56,7 +56,18 @@
       {%- endif -%}
     {%- endif -%}
   {%- endstyle -%}
+  {%- if section.settings.full_width -%}
+    {%- style -%}
+      #slideshow-section--{{ section.id }} {
+        width: 100vw;
+        max-width: 100vw;
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+      }
+    {%- endstyle -%}
+  {%- endif -%}
   <div class="index-section slideshow-section"
+       id="slideshow-section--{{ section.id }}"
        {% if section.settings.allow_transparent_header %}allow-transparent-header{% endif %}
        role="region"
        tabindex="-1"
@@ -221,6 +232,13 @@
       "label": "Show transparent header on hero",
       "info": "When this slideshow is the first section on a page, the site header floats over it and turns solid on scroll. Configure the transparent-state colors in Theme settings → Header.",
       "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width",
+      "info": "Slides bleed edge to edge across the full viewport instead of staying within the page width.",
+      "default": true
     },
     {
       "type": "select",

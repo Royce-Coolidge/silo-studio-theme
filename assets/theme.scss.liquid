@@ -3168,10 +3168,32 @@ input.cart__quantity-selector {
 
 body:has(.grid__item > .shopify-section:first-child [allow-transparent-header]) {
 
+  /* Pin to the viewport with fixed (not sticky): Shopify wraps the header in a
+     .shopify-section whose height equals the header, so a sticky header would
+     only stick within that box and scroll away mid-page. Fixed also takes it
+     out of flow, so the hero starts at the top and the header floats over it —
+     no negative margin needed. */
   .site-header-wrapper {
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     z-index: 5;
-    margin-bottom: calc(-1 * var(--header-height, 0px));
+    will-change: transform;
+
+    /* Hidden while scrolling down; JS toggles .is-hidden. */
+    &.is-hidden {
+      transform: translateY(-100%);
+    }
+
+    /* Solid state background. Because the header is fixed it can be
+       revealed over scrolled page content, so the logo/nav row needs its own
+       opaque background — the transparent-state rule below overrides these
+       back to transparent while sitting over the hero. */
+    .site-header,
+    .site-header .grid--full {
+      background-color: $colorBody;
+    }
 
     &,
     .header-bar,
@@ -3186,7 +3208,8 @@ body:has(.grid__item > .shopify-section:first-child [allow-transparent-header]) 
     .mobile-cart-page-link,
     .icon {
       transition: background-color 0.2s ease, color 0.2s ease,
-                  border-color 0.2s ease, fill 0.2s ease, opacity 0.2s ease;
+                  border-color 0.2s ease, fill 0.2s ease, opacity 0.2s ease,
+                  transform 0.3s ease;
     }
   }
 
@@ -3194,7 +3217,8 @@ body:has(.grid__item > .shopify-section:first-child [allow-transparent-header]) 
   .site-header-wrapper:not(.is-solid):not(:hover):not(:has([aria-expanded="true"])) {
     .header-bar,
     .site-header,
-    .site-header .grid--full {
+    .site-header .grid--full,
+    .site-nav .site-nav__link {
       background-color: transparent;
       border-color: transparent;
     }

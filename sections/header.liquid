@@ -7,6 +7,22 @@
   .logo__image-wrapper {
     max-width: {{ logo_width }}px;
   }
+
+  /*================= Reduced header height ================== */
+  .site-header {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  @media screen and (min-width: 769px) {
+    .site-header {
+      padding-top: 16px;
+      padding-bottom: 16px;
+    }
+    .site-header .post-large--display-table {
+      min-height: 0;
+    }
+  }
+
   /*================= If logo is above navigation ================== */
   {% if section.settings.nav_below_logo %}
     .site-nav {
