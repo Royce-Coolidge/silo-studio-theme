@@ -57,6 +57,7 @@
     {%- endif -%}
   {%- endstyle -%}
   <div class="index-section slideshow-section"
+       {% if section.settings.allow_transparent_header %}allow-transparent-header{% endif %}
        role="region"
        tabindex="-1"
        aria-label="slideshow"
@@ -214,6 +215,13 @@
   },
   "max_blocks": 6,
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "allow_transparent_header",
+      "label": "Show transparent header on hero",
+      "info": "When this slideshow is the first section on a page, the site header floats over it and turns solid on scroll. Configure the transparent-state colors in Theme settings → Header.",
+      "default": false
+    },
     {
       "type": "select",
       "id": "slider_height",

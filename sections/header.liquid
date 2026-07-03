@@ -40,9 +40,29 @@
       }
     }
   {% endunless %}
+
+  {%- if section.settings.transparent_header_text_color -%}
+    .site-header-wrapper {
+      --transparent-header-text-color: {{ section.settings.transparent_header_text_color }};
+    }
+  {%- endif -%}
 </style>
 
-<div data-section-id="{{ section.id }}" data-section-type="header-section">
+{%- if section.settings.transparent_logo != blank -%}
+  {%- assign transparent_logo_src = section.settings.transparent_logo | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+  {%- capture transparent_logo_img -%}
+    <img class="logo__image logo__image--transparent lazyload"
+         src="{{ section.settings.transparent_logo | img_url: '300x300' }}"
+         data-src="{{ transparent_logo_src }}"
+         data-widths="[120, 180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 1944, 2048]"
+         data-aspectratio="{{ section.settings.transparent_logo.aspect_ratio }}"
+         data-sizes="auto"
+         alt="{{ shop.name | escape }}"
+         aria-hidden="true">
+  {%- endcapture -%}
+{%- endif -%}
+
+<div class="site-header-wrapper" data-section-id="{{ section.id }}" data-section-type="header-section">
   <div class="header-bar">
     <div class="wrapper medium-down--hide">
       <div class="post-large--display-table">
@@ -184,6 +204,7 @@
                          data-sizes="auto"
                          alt="{{ shop.name | escape }}"
                          itemprop="logo">
+                    {{ transparent_logo_img }}
                   </a>
                 </div>
               {% else %}
@@ -227,6 +248,7 @@
                          data-sizes="auto"
                          alt="{{ shop.name | escape }}"
                          itemprop="logo">
+                    {{ transparent_logo_img }}
                   </a>
                 </div>
               {% else %}
@@ -639,6 +661,26 @@
         "zh-CN": "可选",
         "zh-TW": "(選填)"
       }
+    },
+    {
+      "type": "header",
+      "content": "Transparent header"
+    },
+    {
+      "type": "paragraph",
+      "content": "Shown when a section (e.g. slideshow) at the top of a page opts in via its own \"Show transparent header on hero\" setting."
+    },
+    {
+      "type": "color",
+      "id": "transparent_header_text_color",
+      "label": "Text and icon color while transparent",
+      "default": "#ffffff"
+    },
+    {
+      "type": "image_picker",
+      "id": "transparent_logo",
+      "label": "Transparent-state logo",
+      "info": "Optional alternate logo shown while the header is transparent. Falls back to the primary logo if empty."
     }
   ]
 }

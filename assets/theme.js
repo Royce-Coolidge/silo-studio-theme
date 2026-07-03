@@ -1327,6 +1327,7 @@ theme.Header = (function() {
       var self = this;
 
       this.cacheSelectors();
+      this.setupTransparencyObservers();
 
       cache.$mobileNavTrigger.on('click.mobileNavTrigger', function(evt) {
         evt.preventDefault();
@@ -1392,6 +1393,38 @@ theme.Header = (function() {
     onUnload: function() {
       cache.$mobileNavTrigger.off('.mobileNavTrigger');
       cache.$mobileSublistTrigger.off('.mobileSublistTrigger');
+      if (this.headerResizeObserver) this.headerResizeObserver.disconnect();
+      if (this.headerIntersectionObserver) this.headerIntersectionObserver.disconnect();
+    },
+
+    setupTransparencyObservers: function() {
+      var headerEl = document.querySelector('.site-header-wrapper');
+      if (!headerEl) return;
+
+      var writeHeaderHeight = function() {
+        document.documentElement.style.setProperty(
+          '--header-height',
+          headerEl.offsetHeight + 'px'
+        );
+      };
+      writeHeaderHeight();
+
+      if (typeof ResizeObserver !== 'undefined') {
+        this.headerResizeObserver = new ResizeObserver(writeHeaderHeight);
+        this.headerResizeObserver.observe(headerEl);
+      } else {
+        $(window).on('resize.headerHeight', writeHeaderHeight);
+      }
+
+      var trackerEl = document.getElementById('header-scroll-tracker');
+      if (trackerEl && typeof IntersectionObserver !== 'undefined') {
+        this.headerIntersectionObserver = new IntersectionObserver(function(entries) {
+          headerEl.classList.toggle('is-solid', !entries[0].isIntersecting);
+        });
+        this.headerIntersectionObserver.observe(trackerEl);
+      } else {
+        headerEl.classList.add('is-solid');
+      }
     },
 
     menuOpen: function() {

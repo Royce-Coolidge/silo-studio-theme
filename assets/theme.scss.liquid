@@ -3139,3 +3139,90 @@ input.cart__quantity-selector {
 .wrapper {
     max-width: 100%;
 }
+
+/*================ Transparent header (per-section opt-in) ================
+ * A first-child section marked [allow-transparent-header] pulls the header
+ * on top of itself. The header goes transparent until the user scrolls past
+ * the #header-scroll-tracker (JS toggles .is-solid), or until it's hovered
+ * or a menu is open. Colors and cross-fading logo come from settings in
+ * Theme editor -> Header -> Transparent header.
+ */
+
+.site-header-wrapper {
+  #{"--transparent-header-text-color"}: #ffffff;
+}
+
+.logo__image,
+.logo__image--transparent {
+  transition: opacity 0.2s ease;
+}
+
+.logo__image--transparent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+body:has(.grid__item > .shopify-section:first-child [allow-transparent-header]) {
+
+  .site-header-wrapper {
+    position: relative;
+    z-index: 5;
+    margin-bottom: calc(-1 * var(--header-height, 0px));
+
+    &,
+    .header-bar,
+    .header-bar a,
+    .header-bar button,
+    .site-header,
+    .site-header .grid--full,
+    .site-header__logo a,
+    .site-nav .site-nav__link,
+    .site-nav .site-nav__dropdown-link,
+    .mobile-nav-trigger,
+    .mobile-cart-page-link,
+    .icon {
+      transition: background-color 0.2s ease, color 0.2s ease,
+                  border-color 0.2s ease, fill 0.2s ease, opacity 0.2s ease;
+    }
+  }
+
+  /* Transparent state: not scrolled, not hovered, no expanded menu */
+  .site-header-wrapper:not(.is-solid):not(:hover):not(:has([aria-expanded="true"])) {
+    .header-bar,
+    .site-header,
+    .site-header .grid--full {
+      background-color: transparent;
+      border-color: transparent;
+    }
+
+    .header-bar,
+    .header-bar a,
+    .header-bar button,
+    .site-header__logo a,
+    .site-nav .site-nav__link,
+    .site-nav .site-nav__dropdown-link,
+    .mobile-nav-trigger,
+    .mobile-cart-page-link {
+      color: var(--transparent-header-text-color);
+    }
+
+    .icon {
+      color: var(--transparent-header-text-color);
+      fill: currentColor;
+    }
+
+    .logo__image              { opacity: 0; }
+    .logo__image--transparent { opacity: 1; }
+  }
+
+  /* Push desktop overlay text below the header so it isn't behind it.
+     The mobile text block sits below the image and needs no push. */
+  .grid__item > .shopify-section:first-child [allow-transparent-header] .slides__text-content:not(.slides__text-content--mobile) {
+    padding-top: var(--header-height, 0px);
+    box-sizing: border-box;
+  }
+}

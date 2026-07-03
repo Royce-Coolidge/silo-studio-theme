@@ -86,6 +86,8 @@
 
 <body id="{{ page_title | handle }}" class="{% if customer %}customer-logged-in {% endif %}template-{{ request.page_type | handle }}">
 
+  <span id="header-scroll-tracker" aria-hidden="true" style="position:absolute; top: var(--header-scroll-tracker-offset, 10px); width:1px; height:1px; pointer-events:none;"></span>
+
   {% section 'header' %}
 
   <main class="wrapper main-content" role="main">
