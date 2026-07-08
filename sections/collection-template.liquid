@@ -1,19 +1,42 @@
 {% paginate collection.products by 100 %}
 
 <div id="CollectionSection" data-section-id="{{ section.id }}" data-section-type="collection-template" data-sort-enabled="{{ section.settings.sort_enable }}" data-tags-enabled="{{ section.settings.tags_enable }}">
-  <div class="section-header section-header--breadcrumb">
-    {% include 'breadcrumb' %}
-  </div>
+  {% comment %}
+    Build a de-duplicated list of every collection referenced by the products in
+    this collection. Handles are wrapped in commas so a `contains` test can't get
+    a false positive from a substring (e.g. "shoes" inside "womens-shoes").
+    The current collection is skipped so it doesn't duplicate the "All" button.
+  {% endcomment %}
+  {% assign filter_handles = ',' %}
+  {% for product in collection.products %}
+    {% for product_collection in product.collections %}
+      {% unless product_collection.handle == collection.handle %}
+        {% capture handle_token %},{{ product_collection.handle }},{% endcapture %}
+        {% unless filter_handles contains handle_token %}
+          {% assign filter_handles = filter_handles | append: product_collection.handle | append: ',' %}
+        {% endunless %}
+      {% endunless %}
+    {% endfor %}
+  {% endfor %}
+  {% assign filter_list = filter_handles | remove_first: ',' | split: ',' %}
 
- 
-    {% if section.settings.tags_enable or section.settings.sort_enable %}
-    <div class="section-header__link--right">
-      {% if section.settings.tags_enable %}
-        
-      {% endif %}
+  {% if filter_list.size > 0 %}
+    <div class="collection-filter" data-collection-filter>
+      <label class="collection-filter__item">
+        <input type="radio" name="collection-filter" value="all" class="collection-filter__input visually-hidden" checked>
+        <span class="collection-filter__btn btn--secondary">All</span>
+      </label>
+      {% for handle in filter_list %}
+        {% assign filter_collection = collections[handle] %}
+        {% if filter_collection.title != blank %}
+          <label class="collection-filter__item">
+            <input type="radio" name="collection-filter" value="{{ handle }}" class="collection-filter__input visually-hidden">
+            <span class="collection-filter__btn btn--secondary">{{ filter_collection.title }}</span>
+          </label>
+        {% endif %}
+      {% endfor %}
     </div>
-    {% endif %}
-  </header>
+  {% endif %}
 
   {% if collection.description != blank %}
     <div class="rte rte--header">
@@ -28,11 +51,8 @@
 
     {% for product in collection.products %}
       {% assign featured = product %}
-      <div class="grid__item {{grid_item_width}},custom-width
-"> 
-
-
-        
+      {% capture product_collections %} {% for product_collection in product.collections %}{{ product_collection.handle }} {% endfor %}{% endcapture %}
+      <div class="grid__item collection-filter-item {{grid_item_width}},custom-width" data-product-collections="{{ product_collections | strip }}">
         {% include 'product-grid-item' %}
       </div>
     {% else %}

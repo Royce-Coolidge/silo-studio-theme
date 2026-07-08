@@ -823,6 +823,13 @@ h6 {
   input {
     font-size: 0.85em;
   }
+
+  // .wrapper drops its horizontal gutter on desktop, so restore a 30px inset
+  // here to keep footer content clear of the viewport edge, plus generous
+  // vertical breathing room on the theme's spacing scale.
+  @include at-query ($min, $small) {
+    padding: $section-spacing 30px;
+  }
 }
 
 .main-content {
@@ -847,6 +854,42 @@ h6 {
 }
 
 html, body { background: $colorBody; }
+
+/*================ Color schemes ================*/
+{%- for i in (1..4) -%}
+  {%- assign prefix = 'cs' | append: i -%}
+  {%- assign key_bg = prefix | append: '_bg' -%}
+  {%- assign key_text = prefix | append: '_text' -%}
+  {%- assign key_btn_bg = prefix | append: '_btn_bg' -%}
+  {%- assign key_btn_txt = prefix | append: '_btn_text' -%}
+  {%- assign bg      = settings[key_bg] -%}
+  {%- assign text    = settings[key_text] -%}
+  {%- assign btn_bg  = settings[key_btn_bg] -%}
+  {%- assign btn_txt = settings[key_btn_txt] -%}
+  {%- if bg != blank or text != blank -%}
+    .color-scheme-{{ i }} {
+      {% if bg != blank %}background-color: {{ bg }};{% endif %}
+      {% if text != blank %}color: {{ text }};{% endif %}
+    }
+  {%- endif -%}
+  {%- if text != blank -%}
+    .color-scheme-{{ i }} h1,
+    .color-scheme-{{ i }} h2,
+    .color-scheme-{{ i }} h3,
+    .color-scheme-{{ i }} .rte,
+    .color-scheme-{{ i }} a:not(.btn) {
+      color: {{ text }};
+    }
+  {%- endif -%}
+  {%- if btn_bg != blank or btn_txt != blank -%}
+    .color-scheme-{{ i }} .btn,
+    .color-scheme-{{ i }} .btn:hover,
+    .color-scheme-{{ i }} .btn:focus {
+      {% if btn_bg != blank %}background-color: {{ btn_bg }};{% endif %}
+      {% if btn_txt != blank %}color: {{ btn_txt }};{% endif %}
+    }
+  {%- endif -%}
+{%- endfor -%}
 
 /*================ Index sections ================*/
 .index-section {
@@ -1543,7 +1586,7 @@ $badgeSize: 60px;
   justify-content: center;
   flex-direction: column;
   height: 100%;
-  padding: 50px 15%;
+  padding: 0 15%;
 }
 
 .newsletter-content p {
@@ -1690,12 +1733,17 @@ $badgeSize: 60px;
   }
 }
 
-// When full-bleed, the image column reaches the true viewport edge while the
-// text column keeps a gutter so copy never touches the screen edge.
-.feature-row.full-bleed .feature-row__text {
-  padding-left: $gridGutter;
-  padding-right: $gridGutter;
+// Remove the .index-section vertical padding on desktop so the row sits flush.
+.index-section.feature-row-section {
+  @include at-query($min, $large) {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
 }
+
+// When full-bleed, the image column reaches the true viewport edge while the
+// text column keeps its inline gutter (defined on .feature-row__text below) so
+// copy never touches the screen edge.
 
 .feature-row__item {
   @include flex(0 1 50%);
@@ -1732,22 +1780,18 @@ $badgeSize: 60px;
 }
 
 .feature-row__text {
-  padding-top: $section-spacing-small;
-  padding-bottom: $section-spacing-small;
+  // Mobile default: modest gutter so copy keeps clear of the screen edge.
+  padding: $section-spacing-small $gridGutter;
 
   @include at-query ($max, $medium) {
     order: 2;
     padding-bottom: 0; // always last element on mobile
   }
-}
 
-@include at-query ($min, $large) {
-  .feature-row__text--left {
-    padding-left: $section-spacing-small;
-  }
-
-  .feature-row__text--right {
-    padding-right: $section-spacing-small;
+  // Desktop: enhanced asymmetric padding — 2x .columns-section__column,
+  // keeping the same 2:3 vertical-to-horizontal ratio (60px / 90px).
+  @include at-query ($min, $large) {
+    padding: ($gridGutter * 2) ($gridGutter * 3);
   }
 }
 
@@ -1755,6 +1799,72 @@ $badgeSize: 60px;
   .featured-row__subtext {
     font-size: em($baseFontSize + 2);
   }
+}
+
+/*================ Columns section ================*/
+// Give the columns section extra breathing room on desktop, beyond the
+// standard .index-section spacing.
+.index-section.columns-section-wrapper {
+  @include at-query($min, $large) {
+    padding-top: $section-spacing;
+    padding-bottom: $section-spacing;
+  }
+}
+
+.columns-section__grid {
+  margin-bottom: -$gridGutter;
+}
+
+.columns-section__column {
+  margin-bottom: $gridGutter;
+  // Mobile default: even gutter on all sides.
+  padding: $gridGutter;
+
+  // Desktop: asymmetric padding (best practice) — horizontal gutter is 1.5x the
+  // vertical so content gets more breathing room side-to-side than top-to-bottom.
+  // 2:3 ratio on the theme's own spacing scale — 30px vertical / 45px horizontal.
+  @include at-query ($min, $large) {
+    padding: $gridGutter ($gridGutter * 1.5);
+  }
+}
+
+// Stack a column's blocks with even rhythm; the alignment helper on the
+// column (.text-left / .text-center / .text-right) drives inline alignment.
+.columns-section__column > * {
+  margin-bottom: $gutter / 2;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.columns-section__heading--small  { font-size: em(floor($baseFontSize * 1.1)); }
+.columns-section__heading--medium { font-size: em(floor($baseFontSize * 1.4)); }
+.columns-section__heading--large  { font-size: em(floor($baseFontSize * 1.9)); }
+
+.columns-section__image-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.columns-section__image {
+  display: block;
+
+  .supports-js &,
+  &.lazyload {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.columns-section__empty {
+  padding: $section-spacing-small 0;
+  color: $colorTextBody;
+  opacity: 0.6;
 }
 
 .featured-blog__post {
@@ -3189,6 +3299,10 @@ input.cart__quantity-selector {
 }
 .wrapper {
     max-width: 100%;
+
+    @include at-query ($min, $small) {
+        padding: 0px;
+    }
 }
 
 /*================ Transparent header (per-section opt-in) ================
@@ -3300,4 +3414,44 @@ body:has(.grid__item > .shopify-section:first-child [allow-transparent-header]) 
     padding-top: var(--header-height, 0px);
     box-sizing: border-box;
   }
+}
+/*============================================================================
+  Collection filter bar
+  Radio buttons styled as outline buttons that filter the product grid by the
+  collections its products belong to (see sections/collection-template.liquid
+  and theme.Collection.collectionFilter in theme.js).
+==============================================================================*/
+// Lay the buttons out as a single horizontal, centred row that wraps when it
+// runs out of width. text-align + inline-block keeps them on one line even if a
+// global `label { display: block }` rule is in play.
+.collection-filter {
+  text-align: center;
+  margin: 0 0 30px;
+  line-height: 1;
+}
+
+.collection-filter__item {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 5px;
+  cursor: pointer;
+}
+
+// The radio itself is hidden via .visually-hidden; the label span carries the look.
+.collection-filter__btn {
+  cursor: pointer;
+  margin: 0;
+}
+
+// Selected state: fill the outline button using the primary button colors.
+.collection-filter__input:checked + .collection-filter__btn {
+  background-color: $colorBtnPrimary;
+  border-color: $colorBtnPrimary;
+  color: $colorBtnPrimaryText;
+}
+
+// Keyboard focus indicator (the input is visually hidden but still focusable).
+.collection-filter__input:focus + .collection-filter__btn {
+  outline: 2px solid $colorBtnPrimary;
+  outline-offset: 2px;
 }

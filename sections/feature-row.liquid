@@ -1,4 +1,5 @@
-<div class="page-width feature-row{% if section.settings.full_width %} full-bleed{% endif %}">
+{%- assign cs = section.settings.color_scheme -%}
+<div id="FeatureRow--{{ section.id }}" class="page-width feature-row{% if cs != 'none' and cs != blank %} color-scheme-{{ cs }}{% endif %}">
   {% capture image_layout %}
     <div class="feature-row__item">
       {% if section.settings.image != blank %}
@@ -83,7 +84,7 @@
     "zh-CN": "带文本的图片",
     "zh-TW": "附文字的圖片"
   },
-  "class": "index-section",
+  "class": "index-section feature-row-section",
   "settings": [
     {
       "type": "image_picker",
@@ -188,6 +189,24 @@
       "label": "Full width",
       "info": "Section bleeds edge to edge across the full viewport instead of staying within the page width.",
       "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "info": "Palettes are defined in Theme settings → Color schemes.",
+      "default": "none",
+      "options": [
+        { "value": "none", "label": "None (theme default)" },
+        { "value": "1", "label": "Scheme 1" },
+        { "value": "2", "label": "Scheme 2" },
+        { "value": "3", "label": "Scheme 3" },
+        { "value": "4", "label": "Scheme 4" }
+      ]
     },
     {
       "type": "text",

@@ -1,0 +1,250 @@
+{% comment %}
+  Columns section.
+
+  Vintage Shopify sections do not support natively nested blocks, so this uses
+  the flat-block delimiter pattern: a "column" block starts a new column, and
+  any "heading" / "text" / "image" blocks that follow it render inside that
+  column until the next "column" block. A hard cap of 4 columns is enforced at
+  render time — a 5th (or later) column and its content are skipped.
+{% endcomment %}
+
+{% assign column_limit = 4 %}
+
+{% comment %} First pass: count column blocks to pick the grid width. {% endcomment %}
+{% assign column_count = 0 %}
+{% for block in section.blocks %}
+  {% if block.type == 'column' %}
+    {% assign column_count = column_count | plus: 1 %}
+  {% endif %}
+{% endfor %}
+{% if column_count > column_limit %}
+  {% assign column_count = column_limit %}
+{% endif %}
+
+{% case column_count %}
+  {% when 1 %}
+    {% assign column_width = 'one-whole' %}
+  {% when 2 %}
+    {% assign column_width = 'small--one-whole one-half' %}
+  {% when 3 %}
+    {% assign column_width = 'small--one-whole one-third' %}
+  {% when 4 %}
+    {% assign column_width = 'small--one-whole medium--one-half one-quarter' %}
+  {% else %}
+    {% assign column_width = 'one-whole' %}
+{% endcase %}
+
+<div class="page-width columns-section{% if section.settings.full_width %} full-bleed{% endif %}">
+  {% if section.settings.title != blank %}
+    <div class="section-header text-center">
+      <h2 class="section-header__title">{{ section.settings.title | escape }}</h2>
+    </div>
+  {% endif %}
+
+  {% if column_count == 0 %}
+    {% if request.design_mode %}
+      <div class="columns-section__empty text-center">
+        Add a Column block, then add Heading, Text, and Image blocks beneath it.
+      </div>
+    {% endif %}
+  {% else %}
+    <div class="grid-uniform columns-section__grid">
+      {% assign rendered_columns = 0 %}
+      {% assign column_open = false %}
+
+      {% for block in section.blocks %}
+        {% case block.type %}
+
+          {% when 'column' %}
+            {% comment %} Close the column we were building before opening the next. {% endcomment %}
+            {% if column_open %}
+                </div>
+              </div>
+              {% assign column_open = false %}
+            {% endif %}
+
+            {% assign rendered_columns = rendered_columns | plus: 1 %}
+            {% if rendered_columns <= column_limit %}
+              <div class="grid__item {{ column_width }}" {{ block.shopify_attributes }}>
+                <div class="columns-section__column text-{{ block.settings.alignment }}">
+              {% assign column_open = true %}
+            {% endif %}
+
+          {% when 'heading' %}
+            {% if column_open and block.settings.heading != blank %}
+              <{{ block.settings.heading_tag }} class="columns-section__heading columns-section__heading--{{ block.settings.heading_size }}" {{ block.shopify_attributes }}>
+                {{ block.settings.heading | escape }}
+              </{{ block.settings.heading_tag }}>
+            {% endif %}
+
+          {% when 'text' %}
+            {% if column_open and block.settings.text != blank %}
+              <div class="rte columns-section__text" {{ block.shopify_attributes }}>
+                {{ block.settings.text }}
+              </div>
+            {% endif %}
+
+          {% when 'image' %}
+            {% if column_open %}
+              <div class="columns-section__image-block" {{ block.shopify_attributes }}>
+                {% if block.settings.image != blank %}
+                  {% if block.settings.link != blank %}<a href="{{ block.settings.link }}">{% endif %}
+                    <noscript>
+                      {{ block.settings.image | img_url: '1024x' | img_tag: block.settings.image.alt }}
+                    </noscript>
+                    {%- assign img_url = block.settings.image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+                    <div class="columns-section__image-wrapper" style="padding-top:{{ 1 | divided_by: block.settings.image.aspect_ratio | times: 100 }}%;">
+                      <img class="columns-section__image lazyload"
+                           src="{{ block.settings.image | img_url: '300x300' }}"
+                           data-src="{{ img_url }}"
+                           data-widths="[180, 360, 540, 720, 900, 1080, 1296, 1512, 1728, 1944, 2048]"
+                           data-aspectratio="{{ block.settings.image.aspect_ratio }}"
+                           data-sizes="auto"
+                           alt="{{ block.settings.image.alt | escape }}">
+                    </div>
+                  {% if block.settings.link != blank %}</a>{% endif %}
+                {% else %}
+                  {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                {% endif %}
+              </div>
+            {% endif %}
+
+        {% endcase %}
+      {% endfor %}
+
+      {% comment %} Close the final open column. {% endcomment %}
+      {% if column_open %}
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  {% endif %}
+</div>
+
+
+
+{% schema %}
+{
+  "name": "Columns",
+  "class": "index-section columns-section-wrapper",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Columns"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width",
+      "info": "Section bleeds edge to edge across the full viewport instead of staying within the page width.",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "Column",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Starts a new column. Add Heading, Text, and Image blocks below it — they belong to this column until the next Column block. Maximum 4 columns; any extra columns are hidden."
+        },
+        {
+          "type": "select",
+          "id": "alignment",
+          "label": "Content alignment",
+          "default": "left",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "center", "label": "Center" },
+            { "value": "right", "label": "Right" }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "name": "Heading",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Column heading"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "label": "Text size",
+          "default": "medium",
+          "options": [
+            { "value": "small", "label": "Small" },
+            { "value": "medium", "label": "Medium" },
+            { "value": "large", "label": "Large" }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "heading_tag",
+          "label": "Heading tag",
+          "info": "Controls the semantic level for accessibility and SEO.",
+          "default": "h3",
+          "options": [
+            { "value": "h2", "label": "H2" },
+            { "value": "h3", "label": "H3" },
+            { "value": "h4", "label": "H4" },
+            { "value": "p", "label": "Paragraph" }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>"
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Image link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Columns",
+      "category": "Text",
+      "blocks": [
+        { "type": "column" },
+        { "type": "heading" },
+        { "type": "text" },
+        { "type": "column" },
+        { "type": "heading" },
+        { "type": "text" },
+        { "type": "column" },
+        { "type": "heading" },
+        { "type": "text" }
+      ]
+    }
+  ]
+}
+{% endschema %}

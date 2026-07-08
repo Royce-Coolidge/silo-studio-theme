@@ -12,6 +12,8 @@
   .site-header {
     padding-top: 20px;
     padding-bottom: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
   }
   @media screen and (min-width: 769px) {
     .site-header {
@@ -62,6 +64,35 @@
       --transparent-header-text-color: {{ section.settings.transparent_header_text_color }};
     }
   {%- endif -%}
+
+  /*================= Cart link moved into the main header ================== */
+  .site-header__nav-wrapper {
+    display: flex;
+    align-items: center;
+  }
+  .site-header__cart {
+    white-space: nowrap;
+  }
+  .site-header__cart .icon-cart {
+    margin-right: 6px;
+  }
+  {% if section.settings.nav_below_logo %}
+    .site-header__nav-wrapper {
+      justify-content: center;
+      position: relative;
+    }
+    .site-header__nav-wrapper .site-header__cart {
+      position: absolute;
+      right: 0;
+    }
+  {% else %}
+    .site-header__nav-wrapper {
+      justify-content: flex-end;
+    }
+    .site-header__nav-wrapper .site-header__cart {
+      margin-left: 24px;
+    }
+  {% endif %}
 </style>
 
 {%- if section.settings.transparent_logo != blank -%}
@@ -78,8 +109,18 @@
   {%- endcapture -%}
 {%- endif -%}
 
+{%- capture site_header_cart -%}
+  <div class="site-header__cart">
+    <a href="{{ routes.cart_url }}" class="cart-page-link" aria-label="{{ 'layout.cart.title' | t }}">
+      <span class="icon icon-cart" aria-hidden="true"></span>
+      <span class="cart-count{% if cart.item_count == 0 %} hidden-count{% endif %}">{{ cart.item_count }}</span>
+    </a>
+  </div>
+{%- endcapture -%}
+
 <div class="site-header-wrapper" data-section-id="{{ section.id }}" data-section-type="header-section">
   <div class="header-bar">
+    {% if section.settings.show_header_bar %}
     <div class="wrapper medium-down--hide">
       <div class="post-large--display-table">
 
@@ -138,20 +179,6 @@
             </ul>
           {% endif %}
 
-          <div class="header-bar__module">
-            <span class="header-bar__sep" aria-hidden="true"></span>
-            <a href="{{ routes.cart_url }}" class="cart-page-link">
-              <span class="icon icon-cart header-bar__cart-icon" aria-hidden="true"></span>
-            </a>
-          </div>
-
-          <div class="header-bar__module">
-            <a href="{{ routes.cart_url }}" class="cart-page-link">
-              {{ 'layout.cart.title' | t }}{% unless cart.item_count == 0 %}:{% endunless %}
-              <span class="cart-count header-bar__cart-count{% if cart.item_count == 0 %} hidden-count{% endif %}">{{ cart.item_count }}</span>
-            </a>
-          </div>
-
           {% if section.settings.header_search_enable %}
             {% if section.settings.show_announcement %}
               <div class="header-bar__module header-bar__search">
@@ -163,6 +190,7 @@
         </div>
       </div>
     </div>
+    {% endif %}
 
     <div class="wrapper post-large--hide announcement-bar--mobile">
       {% if section.settings.show_announcement %}
@@ -235,7 +263,10 @@
         </div>
         <div class="grid--full medium-down--hide">
           <div class="grid__item">
-            {% include 'site-nav' with linklists[section.settings.nav_menu] %}
+            <div class="site-header__nav-wrapper">
+              {% include 'site-nav' with linklists[section.settings.nav_menu] %}
+              {{ site_header_cart }}
+            </div>
           </div>
         </div>
       {% else %}
@@ -277,7 +308,10 @@
             {% endif %}
           </div>
           <div class="grid__item post-large--two-thirds post-large--display-table-cell medium-down--hide">
-            {% include 'site-nav' with linklists[section.settings.nav_menu] %}
+            <div class="site-header__nav-wrapper">
+              {% include 'site-nav' with linklists[section.settings.nav_menu] %}
+              {{ site_header_cart }}
+            </div>
           </div>
         </div>
       {% endif %}
@@ -310,6 +344,13 @@
     "zh-TW": "標頭"
   },
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_header_bar",
+      "label": "Show top bar",
+      "info": "The top utility strip with the announcement, search and account links. The cart link stays in the main header regardless.",
+      "default": true
+    },
     {
       "type": "checkbox",
       "id": "header_search_enable",
