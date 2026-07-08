@@ -1112,8 +1112,38 @@ html, body { background: $colorBody; }
 }
 
 /*================ Module | Grid Link ================*/
+
+// Tighter gutter for the collection/shop product grid (default Timber gutter is 30px).
+$shopGridGutter: 16px;
+
 .grid-link__container {
   margin-bottom: -$gutter;
+
+  // Narrow the horizontal gutter between product cards. The base grid sets
+  // `.grid-uniform { margin-left: -$gridGutter }` and `.grid__item { padding-left: $gridGutter }`;
+  // overriding both here keeps the box model intact so the width % still add up.
+  margin-left: -$shopGridGutter;
+
+  > .grid__item {
+    padding-left: $shopGridGutter;
+  }
+}
+
+// Shop page: 4-column grid instead of 5.
+// At the `wide` breakpoint (>=1250px) the cards use `.wide--one-fifth` (20% = 5 cols);
+// force 25% and re-point the row-clearing from every 5th item to every 4th.
+@media only screen and (min-width: $wide) {
+  .grid-link__container > .grid__item.wide--one-fifth {
+    width: 25%;
+  }
+
+  .grid-link__container > .grid__item.wide--one-fifth:nth-child(5n+1) {
+    clear: none;
+  }
+
+  .grid-link__container > .grid__item.wide--one-fifth:nth-child(4n+1) {
+    clear: both;
+  }
 }
 
 .grid-link,
