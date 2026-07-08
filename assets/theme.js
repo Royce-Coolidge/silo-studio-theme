@@ -1190,6 +1190,36 @@ theme.Collection = (function() {
       if (this.tagsEnabled) {
         this.collectionTags();
       }
+
+      this.collectionFilter();
+    },
+
+    collectionFilter: function() {
+      /*============================================================================
+        Client-side "filter by collection" bar. Each product wrapper carries a
+        space-separated list of the collection handles it belongs to; selecting a
+        radio button shows only the products that include that handle.
+      ==============================================================================*/
+      var $filter = $('[data-collection-filter]', this.$container);
+      if (!$filter.length) {
+        return;
+      }
+
+      var $items = $('.collection-filter-item', this.$container);
+
+      $filter.on('change', 'input[type="radio"]', function() {
+        var value = $(this).val();
+
+        if (value === 'all') {
+          $items.show();
+          return;
+        }
+
+        $items.each(function() {
+          var handles = ' ' + ($(this).attr('data-product-collections') || '') + ' ';
+          $(this).toggle(handles.indexOf(' ' + value + ' ') !== -1);
+        });
+      });
     },
 
     stringOverrides: function() {

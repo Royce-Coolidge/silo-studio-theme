@@ -21,8 +21,21 @@
     "color_body_text": "#502f25",
     "color_footer_text": "#502f25",
     "color_footer_social_link": "#502f25",
+    "cs1_bg": "#F8F1EF",
+    "cs1_text": "#502F25",
+    "cs1_btn_bg": "#AE502C",
+    "cs1_btn_text": "#502F25",
+    "cs2_bg": "#727E3C",
+    "cs2_text": "#F8F1EF",
+    "cs2_btn_text": "#AE502C",
+    "cs3_bg": "#B2CFD2",
+    "cs3_text": "#AE502C",
+    "cs3_btn_bg": "#B2CFD2",
+    "cs3_btn_text": "#AE502C",
+    "cs4_bg": "#E1E178",
+    "cs4_text": "#502F25",
     "type_base_family": "americana_n4",
-    "type_base_size": "16px",
+    "type_base_size": "15px",
     "type_header_family": "americana_n4",
     "type_header_size": "32px",
     "type_accent_family": "inter_n3",
@@ -64,6 +77,7 @@
       "header": {
         "type": "header",
         "settings": {
+          "show_header_bar": false,
           "header_search_enable": false,
           "logo": "shopify://shop_images/by_hannah_watts3.png",
           "logo_max_width": "200",
@@ -75,12 +89,18 @@
           "header_text": "",
           "announcement_link": "shopify://collections/all",
           "transparent_header_text_color": "#f8f1ef",
-          "transparent_logo": "shopify://shop_images/logo3.png"
+          "transparent_logo": "shopify://shop_images/logo2.png"
         }
       },
       "footer": {
         "type": "footer",
         "blocks": {
+          "newsletter_cgTDaU": {
+            "type": "newsletter",
+            "settings": {
+              "subtext": "<p>Sign up for the latest news, offers and styles</p>"
+            }
+          },
           "footer-0": {
             "type": "blog",
             "disabled": true,
@@ -101,6 +121,7 @@
           }
         },
         "block_order": [
+          "newsletter_cgTDaU",
           "footer-0",
           "footer-1",
           "footer-2"
@@ -223,6 +244,7 @@
       },
       "1597333813642": {
         "type": "rich-text",
+        "disabled": true,
         "settings": {
           "section_title": "CONTACT",
           "text": "<p>Please get in touch if you have any enquiries. </p><p>hannah@silo-studio.co.uk</p>",
@@ -237,14 +259,16 @@
       },
       "1610801528e1422f55": {
         "type": "newsletter",
+        "disabled": true,
         "settings": {
           "heading": "Keep updated",
           "subtext": "",
-          "color_bg": "#e2e278"
+          "color_bg": "#F8F1EF"
         }
       },
       "rich_text_meqHUH": {
         "type": "rich-text",
+        "disabled": true,
         "settings": {
           "section_title": "PRESS",
           "text": "<p>As seen in House & Garden, The Financial Times HTSI, Homes & Garden and Country Life</p>",
@@ -253,10 +277,11 @@
       },
       "rich_text_43ezML": {
         "type": "rich-text",
+        "disabled": true,
         "name": "Rich text",
         "settings": {
           "section_title": "",
-          "text": "<p>Hannah Watts (b.1997) is a multidisciplinary artist based in London. She studied fine art at Edinburgh College of Art, The Florence Academy of Art, and graphic design at Shillington College. She uses a combination of these different mediums within her work. Graphic design plays a key role in her drawing style, using geometric shapes and patterns.</p><p>Silo Studio is a design studio consisting of Hannah’s artwork as well as homewares she has designed. It has become a space for Hannah to play; experimenting with different mediums and ideas and collaborating with like minded creatives.</p><p>Hannah’s inspiration largely derives from the tropics; namely the African landscape, both natural and architectural as well as from the craft originating there, particularly the textiles. Hannah likes to make up ‘dreamworlds’ within her designs, creating exaggerated versions of natural elements, particularly the plants and flowers within our landscape, and using pattern as a constant reference.</p><p>With a strong interest in hand made craft everything has either been created in house by Hannah, or designed and made by specialist artisans.</p><p></p><h2>EXHIBITIONS</h2><h3>South Africa</h3><p>'A Celebration of Cloth, into Clay', Chandler House, Cape Town, 21st February 2026</p><h3>UK</h3><p>'New Makers 2026', Toast, May 2026 - April 2027</p><p>'With The Swallows' at WSJ Gallery, 1st April - 30th April 2026</p><p>'Summer Exhibition' at The Gallery at Green and Stone, 28th July - 28th August 2025</p><p>'The Spirit of Charleston', Watts Contemporary Gallery, 6th February - 6th April 2025</p><p>'GEOMETRIC TROPICANA', J/M Gallery, 4th-9th July 2024</p><p>'Re-Imagine', Gallery 8, 8th-13th January 2024</p><p>Eastwood Fine Art, Winter Exhibition, December 2020</p><h2>REPRESENTATION</h2><p><a href=\"https://www.toa.st/collections/hannah-watts-ceramics\" target=\"_blank\" title=\"TOAST\">TOAST</a></p><p><a href=\"https://www.wsjgallery.com/artists/340-hannah-watts/works/\" target=\"_blank\" title=\"WSJ Gallery\">WSJ Gallery</a></p><p><a href=\"https://chandlerhouse.co.za/exhibtion/hannah-watts/\" target=\"_blank\" title=\"Chandler House\">Chandler House (Cape Town)</a></p><p><a href=\"https://mah-gallery.com/hannah-watts\" target=\"_blank\">M.A.H Gallery</a></p><p><a href=\"https://www.wonderingpeople.com/pages/home-collection\" target=\"_blank\" title=\"WONDERING PEOPLE\">Wondering People</a></p><p><a href=\"https://www.felt-collections.com/shop/plates\" target=\"_blank\" title=\"Felt\">FELT</a></p><p><a href=\"https://birdiefortescue.co.uk/collections/hannah-watts\" target=\"_blank\">Birdie Fortescue</a></p><p></p>",
+          "text": "<p>Hannah Watts (b.1997) is a multidisciplinary artist based in London. She studied fine art at Edinburgh College of Art, The Florence Academy of Art, and graphic design at Shillington College. She uses a combination of these different mediums within her work. Graphic design plays a key role in her drawing style, using geometric shapes and patterns.</p><p>Silo Studio is a design studio consisting of Hannah’s artwork as well as homewares she has designed. It has become a space for Hannah to play; experimenting with different mediums and ideas and collaborating with like minded creatives.</p><p>Hannah’s inspiration largely derives from the tropics; namely the African landscape, both natural and architectural as well as from the craft originating there, particularly the textiles. Hannah likes to make up ‘dreamworlds’ within her designs, creating exaggerated versions of natural elements, particularly the plants and flowers within our landscape, and using pattern as a constant reference.</p><p>With a strong interest in hand made craft everything has either been created in house by Hannah, or designed and made by specialist artisans.</p><p></p><h2>EXHIBITIONS</h2><h3>South Africa</h3><p>'A Celebration of Cloth, into Clay', Chandler House, Cape Town, 21st February 2026</p><h3>UK</h3><p>'New Makers 2026', Toast, May 2026 - April 2027</p><p>'Summer Exhibition' at The Gallery at Green and Stone, 28th July - 28th August 2025</p><p>'The Spirit of Charleston', Watts Contemporary Gallery, 6th February - 6th April 2025</p><p>'GEOMETRIC TROPICANA', J/M Gallery, 4th-9th July 2024</p><p>'Re-Imagine', Gallery 8, 8th-13th January 2024</p><p>Eastwood Fine Art, Winter Exhibition, December 2020</p><h2>REPRESENTATION</h2><p><a href=\"https://www.toa.st/collections/hannah-watts-ceramics\" target=\"_blank\" title=\"TOAST\">TOAST</a></p><p><a href=\"https://www.wsjgallery.com/artists/340-hannah-watts/works/\" target=\"_blank\" title=\"WSJ Gallery\">WSJ Gallery</a></p><p><a href=\"https://chandlerhouse.co.za/exhibtion/hannah-watts/\" target=\"_blank\" title=\"Chandler House\">Chandler House (Cape Town)</a></p><p><a href=\"https://mah-gallery.com/hannah-watts\" target=\"_blank\">M.A.H Gallery</a></p><p><a href=\"https://www.wonderingpeople.com/pages/home-collection\" target=\"_blank\" title=\"WONDERING PEOPLE\">Wondering People</a></p><p><a href=\"https://www.felt-collections.com/shop/plates\" target=\"_blank\" title=\"Felt\">FELT</a></p><p><a href=\"https://birdiefortescue.co.uk/collections/hannah-watts\" target=\"_blank\">Birdie Fortescue</a></p><p></p>",
           "text_size": "medium"
         }
       },
@@ -268,28 +293,12 @@
           "image": "shopify://shop_images/IMG_6225.jpg",
           "layout": "left",
           "full_width": true,
+          "color_scheme": "none",
           "title": "",
           "text": "<p>Hannah Watts (b.1997) is a multidisciplinary artist based in London. She studied fine art at Edinburgh College of Art, The Florence Academy of Art, and graphic design at Shillington College. She uses a combination of these different mediums within her work. Graphic design plays a key role in her drawing style, using geometric shapes and patterns.</p><p>Silo Studio is a design studio consisting of Hannah’s artwork as well as homewares she has designed. It has become a space for Hannah to play; experimenting with different mediums and ideas and collaborating with like minded creatives.</p><p>Hannah’s inspiration largely derives from the tropics; namely the African landscape, both natural and architectural as well as from the craft originating there, particularly the textiles. Hannah likes to make up ‘dreamworlds’ within her designs, creating exaggerated versions of natural elements, particularly the plants and flowers within our landscape, and using pattern as a constant reference.</p><p>With a strong interest in hand made craft everything has either been created in house by Hannah, or designed and made by specialist artisans.</p>",
           "button_label": "",
           "button_link": ""
         }
-      },
-      "gallery_phwVmm": {
-        "type": "gallery",
-        "blocks": {
-          "image_BDnEfw": {
-            "type": "image",
-            "settings": {
-              "image": "shopify://shop_images/2_e957d05b-2ec9-4910-844c-f8e17890faab.jpg",
-              "link": ""
-            }
-          }
-        },
-        "block_order": [
-          "image_BDnEfw"
-        ],
-        "name": "Gallery",
-        "settings": {}
       },
       "slider_8T3icB": {
         "type": "slider",
@@ -315,7 +324,7 @@
         "settings": {
           "allow_transparent_header": true,
           "full_width": true,
-          "slider_height": "large",
+          "slider_height": "adapt",
           "slider_autorotate": false,
           "slider_autorotate_rate": 5,
           "slider_home_transition": "slide",
@@ -326,11 +335,89 @@
         "type": "feature-row",
         "name": "Image with text",
         "settings": {
-          "image": "shopify://shop_images/IMG_6225_1.jpg",
+          "image": "shopify://shop_images/IMG_6225_1_f510eb59-ceaf-4525-824b-3f9346e5bf88.jpg",
           "layout": "left",
           "full_width": true,
-          "title": "Image with text",
-          "text": "<p>Pair large text with an image to give focus to your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+          "color_scheme": "2",
+          "title": "Hannah Watts",
+          "text": "<p>Hannah Watts (b.1997) is a multidisciplinary artist based in London. She studied fine art at Edinburgh College of Art, The Florence Academy of Art, and graphic design at Shillington College. She uses a combination of these different mediums within her work. Graphic design plays a key role in her drawing style, using geometric shapes and patterns.</p>",
+          "button_label": "",
+          "button_link": ""
+        }
+      },
+      "feature_row_hxxftX": {
+        "type": "feature-row",
+        "name": "Image with text",
+        "settings": {
+          "image": "shopify://shop_images/TOAST_HannahWatts_291_1.jpg",
+          "layout": "right",
+          "full_width": true,
+          "color_scheme": "4",
+          "title": "Upcoming Exhibtions",
+          "text": "<p><em>28th July - 28th August 2025 </em></p><ul><li><em>'Summer Exhibition</em>' at The Gallery at Green and Stone </li></ul><p></p><p><strong>You can also find my work here...</strong></p><p><a href=\"https://www.toa.st/collections/hannah-watts-ceramics\" target=\"_blank\" title=\"TOAST\">TOAST</a></p><p><a href=\"https://www.wsjgallery.com/artists/340-hannah-watts/works/\" target=\"_blank\" title=\"WSJ Gallery\">WSJ Gallery</a></p><p><a href=\"https://chandlerhouse.co.za/exhibtion/hannah-watts/\" target=\"_blank\" title=\"Chandler House\">Chandler House (Cape Town)</a></p><p><a href=\"https://mah-gallery.com/hannah-watts\" target=\"_blank\">M.A.H Gallery</a></p><p><a href=\"https://www.wonderingpeople.com/pages/home-collection\" target=\"_blank\" title=\"WONDERING PEOPLE\">Wondering People</a></p><p><a href=\"https://www.felt-collections.com/shop/plates\" target=\"_blank\" title=\"Felt\">FELT</a></p><p><a href=\"https://birdiefortescue.co.uk/collections/hannah-watts\" target=\"_blank\">Birdie Fortescue</a></p><p></p>",
+          "button_label": "",
+          "button_link": ""
+        }
+      },
+      "columns_rB8zcJ": {
+        "type": "columns",
+        "blocks": {
+          "column_mx99D6": {
+            "type": "column",
+            "settings": {
+              "alignment": "left"
+            }
+          },
+          "heading_bipdFi": {
+            "type": "heading",
+            "settings": {
+              "heading": "Silo Studio holds Hannah's artwork alongside the homewares she designs. It is where she experiments, moves between mediums, and works with other artists.",
+              "heading_size": "medium",
+              "heading_tag": "h3"
+            }
+          },
+          "column_b3WQde": {
+            "type": "column",
+            "settings": {
+              "alignment": "left"
+            }
+          },
+          "text_KHFj4i": {
+            "type": "text",
+            "settings": {
+              "text": "<p>Her reference points are largely tropical: the African landscape, its architecture and its craft, and above all its textiles. She builds dreamworlds into her designs, exaggerating the natural elements around us, the plants and flowers in particular, with pattern running through everything.</p><p></p>"
+            }
+          },
+          "text_ah47A8": {
+            "type": "text",
+            "settings": {
+              "text": "<p>Every piece is made by hand, either by Hannah herself or by the specialist artisans she works with.</p>"
+            }
+          }
+        },
+        "block_order": [
+          "column_mx99D6",
+          "heading_bipdFi",
+          "column_b3WQde",
+          "text_KHFj4i",
+          "text_ah47A8"
+        ],
+        "name": "Columns",
+        "settings": {
+          "title": "",
+          "full_width": false
+        }
+      },
+      "feature_row_xzBHKF": {
+        "type": "feature-row",
+        "name": "Image with text",
+        "settings": {
+          "image": "shopify://shop_images/TOAST_HannahWatts_159_1.jpg",
+          "layout": "left",
+          "full_width": true,
+          "color_scheme": "3",
+          "title": "Commissions",
+          "text": "<p>Hannah Watts (b.1997) is a multidisciplinary artist based in London. She studied fine art at Edinburgh College of Art, The Florence Academy of Art, and graphic design at Shillington College. She uses a combination of these different mediums within her work. Graphic design plays a key role in her drawing style, using geometric shapes and patterns.</p>",
           "button_label": "",
           "button_link": ""
         }
@@ -338,8 +425,10 @@
     },
     "content_for_index": [
       "slider_8T3icB",
+      "columns_rB8zcJ",
       "feature_row_6U7GQc",
-      "gallery_phwVmm",
+      "feature_row_hxxftX",
+      "feature_row_xzBHKF",
       "rich_text_43ezML",
       "rich_text_meqHUH",
       "1610801528e1422f55",
